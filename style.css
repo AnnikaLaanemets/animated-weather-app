@@ -1,0 +1,130 @@
+body {
+  background: linear-gradient(
+    105.9deg,
+    rgb(15, 209, 165) 3.8%,
+    rgb(15, 157, 209) 20.8%,
+    rgb(133, 13, 230) 51.9%,
+    rgb(230, 13, 202) 73.1%,
+    rgb(242, 180, 107) 94.1%
+  );
+}
+.container {
+  width: 400px;
+  color: #334257;
+  margin: 5% auto;
+  opacity: 0.65;
+  background: #eeeeee;
+  padding: 15px;
+  border: 5px solid #548ca8;
+  border-radius: 15px;
+  font-size: 18px;
+  font-family: "Roboto", sans-serif;
+}
+h5 {
+  margin: 10px;
+  float: right;
+  font-size: 18px;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #476072;
+  border-radius: 30px;
+  box-shadow: 2px 2px 1px 3px rgba(167, 159, 225, 0.1);
+  font-size: 20px;
+}
+
+#location {
+  margin: 5px;
+  font-size: 18px;
+}
+
+button:hover {
+  color: #334257;
+}
+
+h1 {
+  margin: 10px;
+  font-size: 36px;
+  font-weight: 500;
+  text-align: center;
+}
+
+h4 {
+  color: #548ca8;
+  font-size: 24px;
+  text-align: center;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin: 15px;
+}
+
+.current-temperature {
+  display: inline;
+  position: relative;
+}
+.temperature {
+  margin-inline-start: 15%;
+  padding: 5px;
+  font-size: 72px;
+}
+
+button {
+  border: 0;
+  color: #548ca8;
+  cursor: pointer;
+}
+.notclicked {
+  opacity: 0.5;
+}
+#celsius,
+#fahrenheit {
+  position: relative;
+  top: -10px;
+  left: -6px;
+  font-size: 22px;
+  padding: 0;
+}
+
+.current-temperature lottie-player {
+  position: relative;
+  top: -80px;
+}
+
+.animation {
+  position: absolute;
+}
+
+.characteristics {
+  color: #476072;
+  text-align: center;
+  padding: 2px;
+  margin: 25px;
+}
+
+.humidity-precentage {
+  margin-right: 10%;
+}
+
+table {
+  margin: 2px auto;
+  margin-block-start: -20px;
+}
+th {
+  padding: 1px 7px;
+  text-align: center;
+  color: #334257;
+}
+.skyForecast {
+  font-size: 42px;
+}
+
+.temperatures {
+  font-size: 16px;
+}
+
+.day {
+  font-size: 14px;
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather app</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Titan+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h5>date</h5>
+
+      <form>
+        <input
+          type="text"
+          placeholder="🔍Search city"
+          autocomplete="off"
+          autofocus="on"
+          id="search-input"
+        />
+      </form>
+      <button id="location">Show my current location</button>
+
+      <h1>Madrid, Spain</h1>
+
+      <h4>Cloudy</h4>
+
+      <div class="current-temperature">
+        <span class="temperature">12 </span>
+        <button id="celsius">°C</button>
+        <button class="notclicked" id="fahrenheit">/°F</button>
+        <span class="animation">
+          <lottie-player
+            src="https://assets5.lottiefiles.com/private_files/lf30_lurfetu4.json"
+            background="transparent"
+            speed="1"
+            style="width: 250px; height: 250px"
+            loop
+            autoplay
+          ></lottie-player
+        ></span>
+      </div>
+
+      <div class="characteristics">
+        <span class="humidity">Humidity: </span>
+        <span class="current-humidity">90</span>
+        <span class="humidity-precentage">%</span>
+        <span class="wind">Wind: </span>
+        <span class="current-wind">4</span> <span>m/s</span>
+      </div>
+
+      <table>
+        <tr class="skyForecast">
+          <th id="tomorrowEMOJI">🌨️</th>
+          <th id="dayAfterTomorrowEMOJI">🌨️</th>
+          <th id="twoDaysAfterTomorrowEMOJI">🌨️</th>
+          <th id="threeDaysAfterTomorrowEMOJI">🌧️</th>
+          <th id="fourDaysAfterTomorrowEMOJI">🌧️</th>
+        </tr>
+        <tr class="temperatures">
+          <th id="tomorrowT">2°C/-1°C</th>
+          <th id="dayAfterTomorrowT">1°C/-2°C</th>
+          <th id="twoDaysAfterTomorrowT">2°C/1°C</th>
+          <th id="threeDaysAfterTomorrowT">3°C/1°C</th>
+          <th id="fourDaysAfterTomorrowT">4°C/2°C</th>
+        </tr>
+
+        <tr class="day">
+          <th id="tomorrow">Tuesday</th>
+          <th id="dayAfterTomorrow">Wednesday</th>
+          <th id="twoDaysAfterTomorrow">Thursday</th>
+          <th id="threeDaysAfterTomorrow">Friday</th>
+          <th id="fourDaysAfterTomorrow">Saturday</th>
+        </tr>
+      </table>
+    </div>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
