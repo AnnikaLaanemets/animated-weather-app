@@ -129,3 +129,10 @@ th {
 .day {
   font-size: 16px;
 }
+
+footer {
+  font-size: 18px;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  margin-block-start: -50px;
+}
