@@ -1,6 +1,7 @@
-// Show h5 as current time
-let time = document.querySelector("h5");
+// Show h2 as current time
+let time = document.querySelector("h2");
 let date = new Date();
+let hour = date.getHours();
 let days = [
   "Sunday",
   "Monday",
@@ -13,7 +14,6 @@ let days = [
 let day = date.getDay();
 function showTime() {
   let today = days[day];
-  let hour = date.getHours();
   if (hour < 10) {
     hour = "0" + hour;
   }
@@ -76,7 +76,7 @@ function showForecastINsearchedCity(searchedCity) {
 //show today`s weather
 let humidity = document.querySelector("span.current-humidity");
 let wind = document.querySelector("span.current-wind");
-let h4 = document.querySelector("h4");
+let h3 = document.querySelector("h3");
 
 function showTodayWeather(response) {
   let animation = document.querySelector("lottie-player");
@@ -103,13 +103,15 @@ function showTodayWeather(response) {
   let place = allCountries[response.data.sys.country];
   city.innerHTML = `${response.data.name}, ${place}`;
   if (place.length > 10) {
-    city.style.fontSize = "28px";
+    city.style.fontSize = "30px";
   }
   temperature.innerHTML = Math.round(response.data.main.temp);
-  h4.innerHTML = response.data.weather[0].description;
-  animation.load(weatherAnimations[response.data.weather[0].description]);
-  if (date.getHours() > 0 && date.getHours() < 8) {
+  h3.innerHTML = response.data.weather[0].description;
+
+  if (hour > 20 || hour < 7) {
     animation.load(weatherAnimations["night"]);
+  } else {
+    animation.load(weatherAnimations[response.data.weather[0].description]);
   }
   humidity.innerHTML = response.data.main.humidity;
   wind.innerHTML = Math.round(response.data.wind.speed);

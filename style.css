@@ -20,7 +20,7 @@ body {
   font-size: 18px;
   font-family: "Roboto", sans-serif;
 }
-h5 {
+h2 {
   margin: 10px;
   float: right;
   font-size: 18px;
@@ -46,18 +46,17 @@ button:hover {
 }
 
 h1 {
-  margin: 15px;
+  margin: 10px;
   margin-inline-start: 5%;
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 500;
 }
 
-h4 {
+h3 {
   color: #548ca8;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 26px;
   text-transform: capitalize;
-  margin: 10px;
+  margin: 5px;
   margin-inline-start: 10%;
 }
 
@@ -66,13 +65,14 @@ h4 {
   position: relative;
 }
 .temperature {
-  margin-inline-start: 10%;
-  padding: 5px;
+  padding: 8px;
   font-size: 72px;
+  margin-inline-start: 15px;
 }
 
 button {
   border: 0;
+  padding: 0;
   color: #548ca8;
   cursor: pointer;
   background-color: #daccd4;
@@ -83,10 +83,8 @@ button {
 #celsius,
 #fahrenheit {
   position: relative;
-  top: -10px;
-  left: -6px;
-  font-size: 22px;
-  padding: 0;
+  top: -15px;
+  font-size: 24px;
 }
 
 .current-temperature lottie-player {
@@ -102,7 +100,8 @@ button {
 .characteristics {
   color: #476072;
   padding: 2px;
-  margin: 60px;
+  margin: 30px;
+  margin-inline-start: 60px;
 }
 
 .humidity-precentage {
@@ -111,7 +110,7 @@ button {
 
 table {
   margin: 2px auto;
-  margin-block-start: -50px;
+  margin-block-start: -10px;
 }
 th {
   padding: 1px 7px;
@@ -134,5 +133,5 @@ footer {
   font-size: 18px;
   font-family: "Roboto", sans-serif;
   text-align: center;
-  margin-block-start: -50px;
+  margin-block-start: -40px;
 }
