@@ -256,10 +256,52 @@ let allCountries = {
   ZW: "Zimbabwe",
   AX: "Åland Islands",
 };
+let timezones = {
+  "-43200": "-12",
+  "-39600": "-11",
+  "-36000": "-10",
+  "-34200": "-9.5",
+  "-32400": "-09",
+  "-28800": "-8",
+  "-25200": "-7",
+  "-21600": "-6",
+  "-18000": "-5",
+  "-16200": "-4.5",
+  "-14400": "-4",
+  "-12600": "-3.5",
+  "-10800": "-3",
+  "-7200": "-2",
+  "-3600": "-1",
+  0: "0",
+  3600: "1",
+  7200: "2",
+  10800: "3",
+  12600: "3.5",
+  14400: "4",
+  16200: "4.5",
+  18000: "5",
+  19800: "5.5",
+  20700: "5.75",
+  21600: "6",
+  23400: "6.5",
+  25200: "7",
+  28800: "8",
+  32400: "9",
+  34200: "9.5",
+  36000: "10",
+  37800: "10.5",
+  39600: "11",
+  41400: "11.5",
+  43200: "12",
+  45900: "12.75",
+  46800: "13",
+  50400: "14",
+};
 
 // Show h2 as current time
 let time = document.querySelector("h2");
 let date = new Date();
+let day = date.getDay();
 let hour = date.getHours();
 let days = [
   "Sunday",
@@ -270,37 +312,7 @@ let days = [
   "Friday",
   "Saturday",
 ];
-let day = date.getDay();
-function showTime() {
-  let today = days[day];
-  if (hour < 10) {
-    hour = "0" + hour;
-  }
-  let minutes = date.getMinutes();
-  if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
-  time.innerHTML = `${today} ${hour}:${minutes}`;
-}
-showTime();
-
-//Show days
-function showDays() {
-  let length = days.length;
-  document.querySelector("#tomorrow").innerHTML =
-    days[((day % length) + 1) % length];
-  document.querySelector("#dayAfterTomorrow").innerHTML =
-    days[((day % length) + 2) % length];
-  document.querySelector("#twoDaysAfterTomorrow").innerHTML =
-    days[((day % length) + 3) % length];
-  document.querySelector("#threeDaysAfterTomorrow").innerHTML =
-    days[((day % length) + 4) % length];
-  document.querySelector("#fourDaysAfterTomorrow").innerHTML =
-    days[((day % length) + 5) % length];
-}
-showDays();
-
-//luxon time
+let length = days.length;
 
 //show real-time data before searching
 let apiKey = "9bddfe976dc4f376a89a3a80eb610e24";
@@ -339,6 +351,35 @@ let wind = document.querySelector("span.current-wind");
 let h3 = document.querySelector("h3");
 
 function showTodayWeather(response) {
+  let timezone = response.data.timezone;
+  function getLocalTime() {
+    let timeZoneOffset = date.getTimezoneOffset();
+    let offsetHours = -timeZoneOffset / 60;
+    let TZ = timezones[timezone];
+    let local = TZ - offsetHours;
+    let adjustedTime = new Date(date.getTime() + local * 3600 * 1000);
+    let weekDay = adjustedTime.getDay();
+    let localDay = days[adjustedTime.getDay()];
+    let localHour = adjustedTime.getHours();
+    if (localHour < 10) {
+      localHour = "0" + localHour;
+    }
+    let localMinutes = adjustedTime.getMinutes();
+    if (localMinutes < 10) {
+      localMinutes = "0" + localMinutes;
+    }
+    time.innerHTML = `${localDay} ${localHour}:${localMinutes}`;
+    document.querySelector("#tomorrow").innerHTML =
+      days[((weekDay % length) + 1) % length];
+    document.querySelector("#dayAfterTomorrow").innerHTML =
+      days[((weekDay % length) + 2) % length];
+    document.querySelector("#twoDaysAfterTomorrow").innerHTML =
+      days[((weekDay % length) + 3) % length];
+    document.querySelector("#threeDaysAfterTomorrow").innerHTML =
+      days[((weekDay % length) + 4) % length];
+    document.querySelector("#fourDaysAfterTomorrow").innerHTML =
+      days[((weekDay % length) + 5) % length];
+  }
   let animation = document.querySelector("lottie-player");
   weatherAnimations = {
     thunderstorm: "https://assets3.lottiefiles.com/packages/lf20_57ui5yd5.json",
@@ -376,6 +417,7 @@ function showTodayWeather(response) {
   }
   humidity.innerHTML = response.data.main.humidity;
   wind.innerHTML = Math.round(response.data.wind.speed);
+  getLocalTime();
 }
 
 //show temperature in my current location
@@ -479,3 +521,4 @@ function showTemperature(event) {
 F.addEventListener("click", showTemperaturesInFahrenheit);
 C.addEventListener("click", showTemperature);
 //rome (UNited states of America) -> Rome, Italy
+//Dublin, United states of America -> Dublin, Ireland
