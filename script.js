@@ -1,10 +1,36 @@
 let body = document.querySelector("body");
+let time = document.querySelector("h2");
+let apiKey = "9bddfe976dc4f376a89a3a80eb610e24";
+let humidity = document.querySelector("span.current-humidity");
+let wind = document.querySelector("span.current-wind");
+let h3 = document.querySelector("h3");
+let animation = document.querySelector("lottie-player");
 let currentCelsiusTemperature = null;
+let feelsLikeCelsiusTemperature = null;
 let tomorrowCelsiusTemperature = null;
 let dayAfterTomorrowCelsiusTemperature = null;
 let twoDaysAfterTomorrowCelsiusTemperature = null;
 let threeDaysAfterTomorrowCelsiusTemperature = null;
 let fourDaysAfterTomorrowCelsiusTemperature = null;
+let city = document.querySelector("h1");
+let form = document.querySelector("form");
+let temperature = document.querySelector(".temperature");
+let feelsLikeTemperature = document.querySelector("#feels");
+let date = new Date();
+let day = date.getDay();
+let hour = date.getHours();
+let F = document.querySelector("#fahrenheit");
+let C = document.querySelector("#celsius");
+let days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+let length = days.length;
 let allCountries = {
   AF: "Afghanistan",
   AL: "Albania",
@@ -261,7 +287,7 @@ let timezones = {
   "-39600": "-11",
   "-36000": "-10",
   "-34200": "-9.5",
-  "-32400": "-09",
+  "-32400": "-9",
   "-28800": "-8",
   "-25200": "-7",
   "-21600": "-6",
@@ -297,35 +323,57 @@ let timezones = {
   46800: "13",
   50400: "14",
 };
-
-// Show h2 as current time
-let time = document.querySelector("h2");
-let date = new Date();
-let day = date.getDay();
-let hour = date.getHours();
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-let length = days.length;
+let weatherAnimations = {
+  thunderstorm: "https://assets2.lottiefiles.com/temp/lf20_Kuot2e.json",
+  "thunderstorm with rain":
+    "https://assets5.lottiefiles.com/temp/lf20_XkF78Y.json",
+  "thunderstorm with light rain":
+    "https://assets8.lottiefiles.com/temp/lf20_JA7Fsb.json",
+  rain: "https://assets9.lottiefiles.com/packages/lf20_bco9p3ju.json",
+  "moderate rain":
+    "https://assets9.lottiefiles.com/packages/lf20_bco9p3ju.json",
+  "heavy intensity rain":
+    "https://assets3.lottiefiles.com/packages/lf20_1yosmlv4.json",
+  snow: "https://assets7.lottiefiles.com/temp/lf20_WtPCZs.json",
+  "light snow": "https://assets7.lottiefiles.com/temp/lf20_WtPCZs.json",
+  mist: "https://assets9.lottiefiles.com/temp/lf20_kOfPKE.json",
+  "few clouds": "https://assets6.lottiefiles.com/packages/lf20_64okjrr7.json",
+  "scattered clouds":
+    "https://assets6.lottiefiles.com/packages/lf20_64okjrr7.json",
+  "overcast clouds": "https://assets3.lottiefiles.com/temp/lf20_VAmWRg.json",
+  "broken clouds": "https://assets3.lottiefiles.com/temp/lf20_VAmWRg.json",
+  "shower rain": "https://assets4.lottiefiles.com/temp/lf20_rpC1Rd.json",
+  "light rain": "https://assets4.lottiefiles.com/temp/lf20_rpC1Rd.json",
+  "clear sky": "https://assets8.lottiefiles.com/temp/lf20_Stdaec.json",
+  night: "https://assets9.lottiefiles.com/temp/lf20_Jj2Qzq.json",
+  random: "https://assets8.lottiefiles.com/packages/lf20_7lk7qauk.json",
+};
+weatherEmoji = {
+  Thunderstorm: "⛈️",
+  Drizzle: "🌦️",
+  Rain: "🌧️",
+  Snow: "❄️",
+  Mist: "🌫️",
+  Smoke: "🌫️",
+  Haze: "🌫️",
+  Dash: "🌫️",
+  Fog: "🌫️",
+  Sand: "🌫️",
+  Ash: "🌋",
+  Squall: "💨",
+  Tornado: "🌪️",
+  Clear: "☀️",
+  Clouds: "☁️",
+};
 
 //show real-time data before searching
-let apiKey = "9bddfe976dc4f376a89a3a80eb610e24";
 function search(city) {
   showCurrentWeather(city);
   showForecastINsearchedCity(city);
 }
-search("Barcelona");
+search("Ljubljana");
 
-//Show h1 as searched city
-let city = document.querySelector("h1");
-let form = document.querySelector("form");
-let temperature = document.querySelector(".temperature");
+//submit
 function handleSubmit(event) {
   event.preventDefault();
   let searchedCity = document.querySelector("#search-input");
@@ -346,10 +394,6 @@ function showForecastINsearchedCity(searchedCity) {
 }
 
 //show today`s weather
-let humidity = document.querySelector("span.current-humidity");
-let wind = document.querySelector("span.current-wind");
-let h3 = document.querySelector("h3");
-
 function showTodayWeather(response) {
   let timezone = response.data.timezone;
   function getLocalTime() {
@@ -368,6 +412,12 @@ function showTodayWeather(response) {
     if (localMinutes < 10) {
       localMinutes = "0" + localMinutes;
     }
+
+    if (localHour > 20 || localHour < 7) {
+      animation.load(weatherAnimations["night"]);
+    } else {
+      changeAnimation();
+    }
     time.innerHTML = `${localDay} ${localHour}:${localMinutes}`;
     document.querySelector("#tomorrow").innerHTML =
       days[((weekDay % length) + 1) % length];
@@ -380,41 +430,23 @@ function showTodayWeather(response) {
     document.querySelector("#fourDaysAfterTomorrow").innerHTML =
       days[((weekDay % length) + 5) % length];
   }
-  let animation = document.querySelector("lottie-player");
-  weatherAnimations = {
-    thunderstorm: "https://assets3.lottiefiles.com/packages/lf20_57ui5yd5.json",
-    rain: "https://assets4.lottiefiles.com/packages/lf20_bco9p3ju.json",
-    "heavy intensity rain":
-      "https://assets4.lottiefiles.com/packages/lf20_bco9p3ju.json",
-    snow: "https://assets3.lottiefiles.com/temp/lf20_WtPCZs.json",
-    "light snow": "https://assets3.lottiefiles.com/temp/lf20_WtPCZs.json",
-    mist: "https://assets10.lottiefiles.com/temp/lf20_kOfPKE.json",
-    "few clouds": "https://assets6.lottiefiles.com/packages/lf20_64okjrr7.json",
-    "scattered clouds":
-      "https://assets6.lottiefiles.com/packages/lf20_64okjrr7.json",
-    "overcast clouds":
-      "https://assets3.lottiefiles.com/packages/lf20_dxkh5nn5.json",
-    "broken clouds":
-      "https://assets3.lottiefiles.com/packages/lf20_dxkh5nn5.json",
-    "shower rain": "https://assets9.lottiefiles.com/packages/lf20_xzgLBZ.json",
-    "light rain": "https://assets9.lottiefiles.com/packages/lf20_xzgLBZ.json",
-    "clear sky": "https://assets6.lottiefiles.com/packages/lf20_i7ixqfgx.json",
-    night: "https://assets5.lottiefiles.com/packages/lf20_0dwuFO.json",
-  };
-  let place = allCountries[response.data.sys.country];
-  city.innerHTML = `${response.data.name}, ${place}`;
-  if (place.length > 10) {
-    city.style.fontSize = "30px";
+  let location = allCountries[response.data.sys.country];
+  city.innerHTML = `${response.data.name}, ${location}`;
+  if (location.length > 10) {
+    city.style.fontSize = "23px";
   }
   currentCelsiusTemperature = Math.round(response.data.main.temp);
   temperature.innerHTML = currentCelsiusTemperature;
   h3.innerHTML = response.data.weather[0].description;
-
-  if (hour > 20 || hour < 7) {
-    animation.load(weatherAnimations["night"]);
-  } else {
-    animation.load(weatherAnimations[response.data.weather[0].description]);
+  function changeAnimation() {
+    if (weatherAnimations[response.data.weather[0].description] === undefined) {
+      animation.load(weatherAnimations["random"]);
+    } else {
+      animation.load(weatherAnimations[response.data.weather[0].description]);
+    }
   }
+  feelsLikeCelsiusTemperature = Math.round(response.data.main.feels_like);
+  feelsLikeTemperature.innerHTML = feelsLikeCelsiusTemperature;
   humidity.innerHTML = response.data.main.humidity;
   wind.innerHTML = Math.round(response.data.wind.speed);
   getLocalTime();
@@ -438,23 +470,6 @@ function activateButton() {
 myLocation.addEventListener("click", activateButton);
 
 function showForecast(response) {
-  weatherEmoji = {
-    Thunderstorm: "⛈️",
-    Drizzle: "🌦️",
-    Rain: "🌧️",
-    Snow: "❄️",
-    Mist: "🌫️",
-    Smoke: "🌫️",
-    Haze: "🌫️",
-    Dash: "🌫️",
-    Fog: "🌫️",
-    Sand: "🌫️",
-    Ash: "🌋",
-    Squall: "💨",
-    Tornado: "🌪️",
-    Clear: "☀️",
-    Clouds: "☁️",
-  };
   document.querySelector("#tomorrowEMOJI").innerHTML =
     weatherEmoji[response.data.list[6].weather[0].main];
   document.querySelector("#dayAfterTomorrowEMOJI").innerHTML =
@@ -494,14 +509,15 @@ function showForecast(response) {
 }
 
 //Fahrenheit conversion
-let F = document.querySelector("#fahrenheit");
-let C = document.querySelector("#celsius");
+
 function showTemperaturesInFahrenheit(event) {
   event.preventDefault();
   let currentFahrenheitTemperature = currentCelsiusTemperature * 1.8 + 32;
+  let feelsLikeFahrenheitTemperature = feelsLikeCelsiusTemperature * 1.8 + 32;
   let tomorrowFahrenheitTemperature = tomorrowCelsiusTemperature * 1.8 + 32;
   temperature.innerHTML = Math.round(currentFahrenheitTemperature);
-  tomorrowT.innerHTML = Math.round(tomorrowFahrenheitTemperature); //add classNames to min and max temperatures
+  feelsLikeTemperature.innerHTML = Math.round(feelsLikeFahrenheitTemperature);
+  tomorrowT.innerHTML = Math.round(tomorrowFahrenheitTemperature);
   C.classList.add("notclicked");
   F.classList.remove("notclicked");
 }
@@ -509,6 +525,7 @@ function showTemperaturesInFahrenheit(event) {
 function showTemperature(event) {
   event.preventDefault();
   temperature.innerHTML = currentCelsiusTemperature;
+  feelsLikeTemperature.innerHTML = feelsLikeCelsiusTemperature;
   tomorrowT.innerHTML = tomorrowCelsiusTemperature;
   dayAfterTomorrowT.innerHTML = dayAfterTomorrowCelsiusTemperature;
   twoDaysAfterTomorrowT.innerHTML = twoDaysAfterTomorrowCelsiusTemperature;
@@ -520,5 +537,3 @@ function showTemperature(event) {
 
 F.addEventListener("click", showTemperaturesInFahrenheit);
 C.addEventListener("click", showTemperature);
-//rome (UNited states of America) -> Rome, Italy
-//Dublin, United states of America -> Dublin, Ireland

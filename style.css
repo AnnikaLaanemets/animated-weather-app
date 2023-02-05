@@ -12,7 +12,7 @@ body {
   width: 420px;
   color: #334257;
   margin: 5% auto;
-  opacity: 0.65;
+  opacity: 0.55;
   background: #daccd4;
   padding: 15px;
   border: 5px solid #548ca8;
@@ -46,18 +46,21 @@ button:hover {
 }
 
 h1 {
-  margin: 10px;
+  margin: 8px;
   margin-inline-start: 5%;
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 500;
 }
 
 h3 {
   color: #548ca8;
   font-size: 26px;
-  text-transform: capitalize;
   margin: 5px;
   margin-inline-start: 10%;
+  font-weight: bolder;
+}
+h3::first-letter {
+  text-transform: capitalize;
 }
 
 .current-temperature {
@@ -66,8 +69,16 @@ h3 {
 }
 .temperature {
   padding: 8px;
-  font-size: 72px;
+  font-size: 68px;
   margin-inline-start: 15px;
+}
+
+#feelsLike {
+  margin: 8px;
+  font-size: 20px;
+  margin-inline-start: 11%;
+  color: #548ca8;
+  font-weight: bolder;
 }
 
 button {
@@ -87,10 +98,10 @@ button {
   font-size: 24px;
 }
 
-.current-temperature lottie-player {
+lottie-player {
   position: relative;
-  top: -90px;
-  left: 2px;
+  top: -60px;
+  left: 50px;
 }
 
 .animation {
@@ -99,8 +110,8 @@ button {
 
 .characteristics {
   color: #476072;
-  padding: 5px;
-  margin: 50px;
+  padding: 10px;
+  margin: 20px;
   margin-inline-start: 60px;
 }
 
@@ -110,7 +121,7 @@ button {
 
 table {
   margin: 2px auto;
-  margin-block-start: -45px;
+  margin-block-start: -20px;
 }
 th {
   padding: 1px 7px;
