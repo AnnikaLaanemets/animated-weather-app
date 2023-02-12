@@ -1,10 +1,11 @@
+let apiKey = "9bddfe976dc4f376a89a3a80eb610e24";
 let body = document.querySelector("body");
 let time = document.querySelector("h2");
-let apiKey = "9bddfe976dc4f376a89a3a80eb610e24";
-let key = "5f472b7acba333cd8a035ea85a0d4d4c";
+let city = document.querySelector("h1");
+let form = document.querySelector("form");
+let h3 = document.querySelector("h3");
 let humidity = document.querySelector("span.current-humidity");
 let wind = document.querySelector("span.current-wind");
-let h3 = document.querySelector("h3");
 let animation = document.querySelector("lottie-player");
 let currentCelsiusTemperature = null;
 let feelsLikeCelsiusTemperature = null;
@@ -18,8 +19,6 @@ let threeDaysAfterTomorrowCelsiusTemperatureMin = null;
 let threeDaysAfterTomorrowCelsiusTemperatureMax = null;
 let fourDaysAfterTomorrowCelsiusTemperatureMin = null;
 let fourDaysAfterTomorrowCelsiusTemperatureMax = null;
-let city = document.querySelector("h1");
-let form = document.querySelector("form");
 let temperature = document.querySelector(".temperature");
 let feelsLikeTemperature = document.querySelector("#feels");
 let date = new Date();
@@ -95,7 +94,7 @@ let allCountries = {
   CU: "Cuba",
   CW: "Curaçao",
   CY: "Cyprus",
-  CZ: "Czechia",
+  CZ: "Czech",
   CI: "Côte d'Ivoire",
   DK: "Denmark",
   DJ: "Djibouti",
@@ -159,7 +158,7 @@ let allCountries = {
   KR: "North-Korea",
   KW: "Kuwait",
   KG: "Kyrgyzstan",
-  LA: "Lao People's Democratic Republic",
+  LA: "Laos",
   LV: "Latvia",
   LB: "Lebanon",
   LS: "Lesotho",
@@ -253,7 +252,7 @@ let allCountries = {
   SJ: "Svalbard and Jan Mayen",
   SE: "Sweden",
   CH: "Switzerland",
-  SY: "Syrian Arab Republic",
+  SY: "Syria",
   TW: "Taiwan",
   TJ: "Tajikistan",
   TZ: "Tanzania",
@@ -343,6 +342,8 @@ let weatherAnimations = {
   snow: "https://assets7.lottiefiles.com/temp/lf20_WtPCZs.json",
   "light snow": "https://assets7.lottiefiles.com/temp/lf20_WtPCZs.json",
   mist: "https://assets9.lottiefiles.com/temp/lf20_kOfPKE.json",
+  fog: "https://assets9.lottiefiles.com/temp/lf20_kOfPKE.json",
+  haze: "https://assets9.lottiefiles.com/temp/lf20_kOfPKE.json",
   "few clouds": "https://assets6.lottiefiles.com/packages/lf20_64okjrr7.json",
   "scattered clouds":
     "https://assets6.lottiefiles.com/packages/lf20_64okjrr7.json",
@@ -376,7 +377,7 @@ weatherEmoji = {
 function search(city) {
   showCurrentWeather(city);
 }
-search("Ljubljana");
+search("Madrid");
 
 //submit
 function handleSubmit(event) {
@@ -462,7 +463,9 @@ function showTodayWeather(response) {
 
   showCityAndCountry();
   getLocalTime();
-  getForecast(`${response.data.coord.lat}`, `${response.data.coord.lon}`);
+  let latitude = response.data.coord.lat;
+  let longitude = response.data.coord.lon;
+  getForecast(latitude, longitude);
 }
 
 //show temperature in my current location
@@ -473,7 +476,6 @@ function showWeatherInMyLocation(position) {
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
   axios.get(url).then(showTodayWeather);
   getForecast(latitude, longitude);
-  //axios.get(forecastURL).then(showForecast);
 }
 
 function activateButton() {
@@ -483,26 +485,28 @@ function activateButton() {
 myLocation.addEventListener("click", activateButton);
 
 function getForecast(lat, lon) {
-  let forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=metric`;
+  let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
   axios.get(forecastURL).then(showForecast);
 }
+
 function showForecast(response) {
+  console.log(response);
   document.querySelector("#tomorrowEMOJI").innerHTML =
-    weatherEmoji[response.data.daily[1].weather[0].main];
+    weatherEmoji[response.data.list[8].weather[0].main];
   document.querySelector("#dayAfterTomorrowEMOJI").innerHTML =
-    weatherEmoji[response.data.daily[2].weather[0].main];
+    weatherEmoji[response.data.list[16].weather[0].main];
   document.querySelector("#twoDaysAfterTomorrowEMOJI").innerHTML =
-    weatherEmoji[response.data.daily[3].weather[0].main];
+    weatherEmoji[response.data.list[24].weather[0].main];
   document.querySelector("#threeDaysAfterTomorrowEMOJI").innerHTML =
-    weatherEmoji[response.data.daily[4].weather[0].main];
+    weatherEmoji[response.data.list[32].weather[0].main];
   document.querySelector("#fourDaysAfterTomorrowEMOJI").innerHTML =
-    weatherEmoji[response.data.daily[5].weather[0].main];
+    weatherEmoji[response.data.list[39].weather[0].main];
 
   tomorrowCelsiusTemperatureMin = `${Math.round(
-    response.data.daily[1].temp.min
+    Math.round(response.data.list[6].main.temp)
   )}° / `;
   tomorrowCelsiusTemperatureMax = `${Math.round(
-    response.data.daily[1].temp.max
+    Math.round(response.data.list[9].main.temp)
   )}°`;
   document.querySelector("#tomorrowMin").innerHTML =
     tomorrowCelsiusTemperatureMin;
@@ -510,10 +514,10 @@ function showForecast(response) {
     tomorrowCelsiusTemperatureMax;
 
   dayAfterTomorrowCelsiusTemperatureMin = `${Math.round(
-    response.data.daily[2].temp.min
+    response.data.list[14].main.temp
   )}° / `;
   dayAfterTomorrowCelsiusTemperatureMax = `${Math.round(
-    response.data.daily[2].temp.max
+    response.data.list[17].main.temp
   )}°`;
   document.querySelector("#dayAfterTomorrowMin").innerHTML =
     dayAfterTomorrowCelsiusTemperatureMin;
@@ -521,10 +525,10 @@ function showForecast(response) {
     dayAfterTomorrowCelsiusTemperatureMax;
 
   twoDaysAfterTomorrowCelsiusTemperatureMin = `${Math.round(
-    response.data.daily[3].temp.min
+    response.data.list[22].main.temp
   )}° / `;
   twoDaysAfterTomorrowCelsiusTemperatureMax = `${Math.round(
-    response.data.daily[3].temp.max
+    response.data.list[25].main.temp
   )}°`;
   document.querySelector("#twoDaysAfterTomorrowMin").innerHTML =
     twoDaysAfterTomorrowCelsiusTemperatureMin;
@@ -532,10 +536,10 @@ function showForecast(response) {
     twoDaysAfterTomorrowCelsiusTemperatureMax;
 
   threeDaysAfterTomorrowCelsiusTemperatureMin = `${Math.round(
-    response.data.daily[4].temp.min
+    response.data.list[30].main.temp
   )}° / `;
   threeDaysAfterTomorrowCelsiusTemperatureMax = `${Math.round(
-    response.data.daily[4].temp.max
+    response.data.list[33].main.temp
   )}°`;
   document.querySelector("#threeDaysAfterTomorrowMin").innerHTML =
     threeDaysAfterTomorrowCelsiusTemperatureMin;
@@ -543,10 +547,10 @@ function showForecast(response) {
     threeDaysAfterTomorrowCelsiusTemperatureMax;
 
   fourDaysAfterTomorrowCelsiusTemperatureMin = `${Math.round(
-    response.data.daily[5].temp.min
+    response.data.list[38].main.temp
   )}° / `;
   fourDaysAfterTomorrowCelsiusTemperatureMax = `${Math.round(
-    response.data.daily[5].temp.max
+    response.data.list[39].main.temp
   )}°`;
   document.querySelector("#fourDaysAfterTomorrowMin").innerHTML =
     fourDaysAfterTomorrowCelsiusTemperatureMin;
@@ -559,10 +563,10 @@ function showTemperaturesInFahrenheit(event) {
   event.preventDefault();
   let currentFahrenheitTemperature = currentCelsiusTemperature * 1.8 + 32;
   let feelsLikeFahrenheitTemperature = feelsLikeCelsiusTemperature * 1.8 + 32;
-  let tomorrowFahrenheitTemperature = tomorrowCelsiusTemperature * 1.8 + 32;
+  let tomorrowFahrenheitTemperature = tomorrowCelsiusTemperatureMin * 1.8 + 32;
   temperature.innerHTML = Math.round(currentFahrenheitTemperature);
   feelsLikeTemperature.innerHTML = Math.round(feelsLikeFahrenheitTemperature);
-  tomorrowT.innerHTML = Math.round(tomorrowFahrenheitTemperature);
+  tomorrowMin.innerHTML = Math.round(tomorrowFahrenheitTemperature);
   C.classList.add("notclicked");
   F.classList.remove("notclicked");
 }
@@ -571,11 +575,13 @@ function showTemperature(event) {
   event.preventDefault();
   temperature.innerHTML = currentCelsiusTemperature;
   feelsLikeTemperature.innerHTML = feelsLikeCelsiusTemperature;
-  tomorrowT.innerHTML = tomorrowCelsiusTemperature;
-  dayAfterTomorrowT.innerHTML = dayAfterTomorrowCelsiusTemperature;
-  twoDaysAfterTomorrowT.innerHTML = twoDaysAfterTomorrowCelsiusTemperature;
-  threeDaysAfterTomorrowT.innerHTML = threeDaysAfterTomorrowCelsiusTemperature;
-  fourDaysAfterTomorrowT.innerHTML = fourDaysAfterTomorrowCelsiusTemperature;
+  tomorrowMin.innerHTML = tomorrowCelsiusTemperatureMin;
+  dayAfterTomorrowMin.innerHTML = dayAfterTomorrowCelsiusTemperatureMin;
+  twoDaysAfterTomorrowMin.innerHTML = twoDaysAfterTomorrowCelsiusTemperatureMin;
+  threeDaysAfterTomorrowMin.innerHTML =
+    threeDaysAfterTomorrowCelsiusTemperatureMin;
+  fourDaysAfterTomorrowMin.innerHTML =
+    fourDaysAfterTomorrowCelsiusTemperatureMin;
   C.classList.remove("notclicked");
   F.classList.add("notclicked");
 }
