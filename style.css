@@ -9,10 +9,10 @@ body {
   );
 }
 .container {
-  width: 420px;
+  width: 400px;
   color: #334257;
   margin: 5% auto;
-  opacity: 0.6;
+  opacity: 0.58;
   background: #daccd4;
   padding: 15px;
   border: 5px solid #548ca8;
@@ -28,7 +28,7 @@ h2 {
 
 input {
   box-sizing: border-box;
-  width: 100%;
+  width: 98%;
   padding: 12px;
   border: 1px solid #476072;
   border-radius: 30px;
@@ -48,7 +48,7 @@ button:hover {
 h1 {
   margin: 8px;
   margin-inline-start: 5%;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 500;
 }
 
@@ -68,6 +68,7 @@ h3::first-letter {
   position: relative;
 }
 .temperature {
+  position: relative;
   padding: 8px;
   font-size: 68px;
   margin-inline-start: 15px;
@@ -83,45 +84,39 @@ h3::first-letter {
 
 button {
   border: 0;
-  padding: 0;
   color: #548ca8;
   cursor: pointer;
   background-color: #daccd4;
 }
 .notclicked {
-  opacity: 0.5;
+  opacity: 0.38;
 }
 #celsius,
 #fahrenheit {
   position: relative;
-  top: -15px;
-  font-size: 24px;
-}
-
-lottie-player {
-  position: relative;
-  top: -60px;
-  left: 40px;
+  padding: 0;
+  font-size: 30px;
+  top: -10px;
 }
 
 .animation {
   position: absolute;
+  left: 195px;
+  top: -105px;
 }
 
 .characteristics {
   color: #476072;
-  padding: 10px;
-  margin: 25px;
-  margin-inline-start: 60px;
+  margin: 33px;
 }
 
 .humidity-precentage {
-  margin-right: 20%;
+  margin-right: 90px;
 }
 
 table {
   margin: 2px auto;
-  margin-block-start: -20px;
+  margin-block-start: -12px;
 }
 th {
   padding: 1px 7px;
@@ -140,9 +135,12 @@ th {
   font-size: 13px;
 }
 
+a {
+  color: #beaaf2;
+}
 footer {
   font-size: 18px;
   font-family: "Roboto", sans-serif;
   text-align: center;
-  margin-block-start: -40px;
+  margin-block-start: -36px;
 }

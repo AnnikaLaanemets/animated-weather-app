@@ -334,9 +334,9 @@ let weatherAnimations = {
     "https://assets5.lottiefiles.com/temp/lf20_XkF78Y.json",
   "thunderstorm with light rain":
     "https://assets8.lottiefiles.com/temp/lf20_JA7Fsb.json",
-  rain: "https://assets9.lottiefiles.com/packages/lf20_bco9p3ju.json",
+  rain: "https://assets3.lottiefiles.com/packages/lf20_1yosmlv4.json",
   "moderate rain":
-    "https://assets9.lottiefiles.com/packages/lf20_bco9p3ju.json",
+    "https://assets3.lottiefiles.com/packages/lf20_1yosmlv4.json",
   "heavy intensity rain":
     "https://assets3.lottiefiles.com/packages/lf20_1yosmlv4.json",
   snow: "https://assets7.lottiefiles.com/temp/lf20_WtPCZs.json",
@@ -351,6 +351,8 @@ let weatherAnimations = {
   "broken clouds": "https://assets3.lottiefiles.com/temp/lf20_VAmWRg.json",
   "shower rain": "https://assets4.lottiefiles.com/temp/lf20_rpC1Rd.json",
   "light rain": "https://assets4.lottiefiles.com/temp/lf20_rpC1Rd.json",
+  "light intensity shower rain":
+    "https://assets4.lottiefiles.com/temp/lf20_rpC1Rd.json",
   "clear sky": "https://assets8.lottiefiles.com/temp/lf20_Stdaec.json",
   night: "https://assets9.lottiefiles.com/temp/lf20_Jj2Qzq.json",
   random: "https://assets8.lottiefiles.com/packages/lf20_7lk7qauk.json",
@@ -377,7 +379,7 @@ weatherEmoji = {
 function search(city) {
   showCurrentWeather(city);
 }
-search("Madrid");
+search("Galway");
 
 //submit
 function handleSubmit(event) {
@@ -441,9 +443,9 @@ function showTodayWeather(response) {
       city.innerHTML = `${response.data.name}, ${location}`;
     }
     if (location.length > 10) {
-      city.style.fontSize = "22px";
+      city.style.fontSize = "27px";
     } else {
-      city.style.fontSize = "30px";
+      city.style.fontSize = "32px";
     }
   }
   currentCelsiusTemperature = Math.round(response.data.main.temp);
@@ -490,7 +492,6 @@ function getForecast(lat, lon) {
 }
 
 function showForecast(response) {
-  console.log(response);
   document.querySelector("#tomorrowEMOJI").innerHTML =
     weatherEmoji[response.data.list[8].weather[0].main];
   document.querySelector("#dayAfterTomorrowEMOJI").innerHTML =
@@ -504,10 +505,10 @@ function showForecast(response) {
 
   tomorrowCelsiusTemperatureMin = `${Math.round(
     Math.round(response.data.list[6].main.temp)
-  )}° / `;
+  )}`;
   tomorrowCelsiusTemperatureMax = `${Math.round(
     Math.round(response.data.list[9].main.temp)
-  )}°`;
+  )}`;
   document.querySelector("#tomorrowMin").innerHTML =
     tomorrowCelsiusTemperatureMin;
   document.querySelector("#tomorrowMax").innerHTML =
@@ -515,10 +516,10 @@ function showForecast(response) {
 
   dayAfterTomorrowCelsiusTemperatureMin = `${Math.round(
     response.data.list[14].main.temp
-  )}° / `;
+  )}`;
   dayAfterTomorrowCelsiusTemperatureMax = `${Math.round(
     response.data.list[17].main.temp
-  )}°`;
+  )}`;
   document.querySelector("#dayAfterTomorrowMin").innerHTML =
     dayAfterTomorrowCelsiusTemperatureMin;
   document.querySelector("#dayAfterTomorrowMax").innerHTML =
@@ -526,10 +527,10 @@ function showForecast(response) {
 
   twoDaysAfterTomorrowCelsiusTemperatureMin = `${Math.round(
     response.data.list[22].main.temp
-  )}° / `;
+  )}`;
   twoDaysAfterTomorrowCelsiusTemperatureMax = `${Math.round(
     response.data.list[25].main.temp
-  )}°`;
+  )}`;
   document.querySelector("#twoDaysAfterTomorrowMin").innerHTML =
     twoDaysAfterTomorrowCelsiusTemperatureMin;
   document.querySelector("#twoDaysAfterTomorrowMax").innerHTML =
@@ -537,10 +538,10 @@ function showForecast(response) {
 
   threeDaysAfterTomorrowCelsiusTemperatureMin = `${Math.round(
     response.data.list[30].main.temp
-  )}° / `;
+  )}`;
   threeDaysAfterTomorrowCelsiusTemperatureMax = `${Math.round(
     response.data.list[33].main.temp
-  )}°`;
+  )}`;
   document.querySelector("#threeDaysAfterTomorrowMin").innerHTML =
     threeDaysAfterTomorrowCelsiusTemperatureMin;
   document.querySelector("#threeDaysAfterTomorrowMax").innerHTML =
@@ -548,10 +549,10 @@ function showForecast(response) {
 
   fourDaysAfterTomorrowCelsiusTemperatureMin = `${Math.round(
     response.data.list[38].main.temp
-  )}° / `;
+  )}`;
   fourDaysAfterTomorrowCelsiusTemperatureMax = `${Math.round(
     response.data.list[39].main.temp
-  )}°`;
+  )}`;
   document.querySelector("#fourDaysAfterTomorrowMin").innerHTML =
     fourDaysAfterTomorrowCelsiusTemperatureMin;
   document.querySelector("#fourDaysAfterTomorrowMax").innerHTML =
@@ -562,26 +563,76 @@ function showForecast(response) {
 function showTemperaturesInFahrenheit(event) {
   event.preventDefault();
   let currentFahrenheitTemperature = currentCelsiusTemperature * 1.8 + 32;
-  let feelsLikeFahrenheitTemperature = feelsLikeCelsiusTemperature * 1.8 + 32;
-  let tomorrowFahrenheitTemperature = tomorrowCelsiusTemperatureMin * 1.8 + 32;
   temperature.innerHTML = Math.round(currentFahrenheitTemperature);
+  let feelsLikeFahrenheitTemperature = feelsLikeCelsiusTemperature * 1.8 + 32;
   feelsLikeTemperature.innerHTML = Math.round(feelsLikeFahrenheitTemperature);
-  tomorrowMin.innerHTML = Math.round(tomorrowFahrenheitTemperature);
+  let tomorrowFahrenheitTemperatureMin =
+    tomorrowCelsiusTemperatureMin * 1.8 + 32;
+  tomorrowMin.innerHTML = Math.round(tomorrowFahrenheitTemperatureMin);
+  let tomorrowFahrenheitTemperatureMax =
+    tomorrowCelsiusTemperatureMax * 1.8 + 32;
+  tomorrowMax.innerHTML = Math.round(tomorrowFahrenheitTemperatureMax);
+  let dayAfterTomorrowFahrenheitTemperatureMin =
+    dayAfterTomorrowCelsiusTemperatureMin * 1.8 + 32;
+  dayAfterTomorrowMin.innerHTML = Math.round(
+    dayAfterTomorrowFahrenheitTemperatureMin
+  );
+  let dayAfterTomorrowFahrenheitTemperatureMax =
+    dayAfterTomorrowCelsiusTemperatureMax * 1.8 + 32;
+  dayAfterTomorrowMax.innerHTML = Math.round(
+    dayAfterTomorrowFahrenheitTemperatureMax
+  );
+  let twoDaysAfterTomorrowFahrenheitTemperatureMin =
+    twoDaysAfterTomorrowCelsiusTemperatureMin * 1.8 + 32;
+  twoDaysAfterTomorrowMin.innerHTML = Math.round(
+    twoDaysAfterTomorrowFahrenheitTemperatureMin
+  );
+  let twoDaysAfterTomorrowFahrenheitTemperatureMax =
+    twoDaysAfterTomorrowCelsiusTemperatureMax * 1.8 + 32;
+  twoDaysAfterTomorrowMax.innerHTML = Math.round(
+    twoDaysAfterTomorrowFahrenheitTemperatureMax
+  );
+  let threeDaysAfterTomorrowFahrenheitTemperatureMin =
+    threeDaysAfterTomorrowCelsiusTemperatureMin * 1.8 + 32;
+  threeDaysAfterTomorrowMin.innerHTML = Math.round(
+    threeDaysAfterTomorrowFahrenheitTemperatureMin
+  );
+  let threeDaysAfterTomorrowFahrenheitTemperatureMax =
+    threeDaysAfterTomorrowCelsiusTemperatureMax * 1.8 + 32;
+  threeDaysAfterTomorrowMax.innerHTML = Math.round(
+    threeDaysAfterTomorrowFahrenheitTemperatureMax
+  );
+  let fourDaysAfterTomorrowFahrenheitTemperatureMin =
+    fourDaysAfterTomorrowCelsiusTemperatureMin * 1.8 + 32;
+  fourDaysAfterTomorrowMin.innerHTML = Math.round(
+    fourDaysAfterTomorrowFahrenheitTemperatureMin
+  );
+  let fourDaysAfterTomorrowFahrenheitTemperatureMax =
+    fourDaysAfterTomorrowCelsiusTemperatureMax * 1.8 + 32;
+  fourDaysAfterTomorrowMax.innerHTML = Math.round(
+    fourDaysAfterTomorrowFahrenheitTemperatureMax
+  );
   C.classList.add("notclicked");
   F.classList.remove("notclicked");
 }
-
 function showTemperature(event) {
   event.preventDefault();
   temperature.innerHTML = currentCelsiusTemperature;
   feelsLikeTemperature.innerHTML = feelsLikeCelsiusTemperature;
   tomorrowMin.innerHTML = tomorrowCelsiusTemperatureMin;
+  tomorrowMax.innerHTML = tomorrowCelsiusTemperatureMax;
   dayAfterTomorrowMin.innerHTML = dayAfterTomorrowCelsiusTemperatureMin;
+  dayAfterTomorrowMax.innerHTML = dayAfterTomorrowCelsiusTemperatureMax;
   twoDaysAfterTomorrowMin.innerHTML = twoDaysAfterTomorrowCelsiusTemperatureMin;
+  twoDaysAfterTomorrowMax.innerHTML = twoDaysAfterTomorrowCelsiusTemperatureMax;
   threeDaysAfterTomorrowMin.innerHTML =
     threeDaysAfterTomorrowCelsiusTemperatureMin;
+  threeDaysAfterTomorrowMax.innerHTML =
+    threeDaysAfterTomorrowCelsiusTemperatureMax;
   fourDaysAfterTomorrowMin.innerHTML =
     fourDaysAfterTomorrowCelsiusTemperatureMin;
+  fourDaysAfterTomorrowMax.innerHTML =
+    fourDaysAfterTomorrowCelsiusTemperatureMax;
   C.classList.remove("notclicked");
   F.classList.add("notclicked");
 }
